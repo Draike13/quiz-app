@@ -1,9 +1,13 @@
-import { getQuiz, quizBookEasy } from '../data/data.js';
+import { getQuiz, quizBook } from '../data/data.js';
 let easyBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficulty=easy&type=multiple';
+let mediumBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficulty=medium&type=multiple';
+let hardBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficulty=hard&type=multiple';
 let overlay = document.querySelector('.menu-overlay');
 let header2 = document.getElementById('header2');
 let menu = document.querySelector('.header-icon');
 let easy = document.querySelector('.easy');
+let medium = document.querySelector('.medium');
+let hard = document.querySelector('.hard');
 function menuControl(event) {
   if (header2.classList.contains('open')) {
     if (event.target === overlay || event.target === menu) {
@@ -19,7 +23,21 @@ function menuControl(event) {
 }
 function openEasy() {
   getQuiz(easyBookQuizAPI).then(() =>
-    quizBookEasy[0].results.forEach((question) => {
+    quizBook[0].results.forEach((question) => {
+      console.log(question.question);
+    })
+  );
+}
+function openMedium() {
+  getQuiz(mediumBookQuizAPI).then(() =>
+    quizBook[0].results.forEach((question) => {
+      console.log(question.question);
+    })
+  );
+}
+function openHard() {
+  getQuiz(hardBookQuizAPI).then(() =>
+    quizBook[0].results.forEach((question) => {
       console.log(question.question);
     })
   );
@@ -27,3 +45,5 @@ function openEasy() {
 
 document.addEventListener('click', menuControl);
 easy.addEventListener('click', openEasy);
+medium.addEventListener('click', openMedium);
+hard.addEventListener('click', openHard);
