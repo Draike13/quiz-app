@@ -39,6 +39,11 @@
   transition: 500ms;
   cursor: pointer;
 }
+#header2 i:hover {
+  color: gray;
+  transition: 500ms;
+  cursor: pointer;
+}
 
 #header .header-text {
   color: #f1f1f1;
