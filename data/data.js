@@ -1,10 +1,9 @@
-export async function getQuiz(API) {
-  return fetch(API)
+export async function getQuiz(category, difficulty) {
+  return fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`)
     .then((response) => response.json())
     .then((data) => {
-      quizBook.push(data);
+      quizBook = data;
     })
     .catch((error) => console.error('Error fetching affirmation:', error));
 }
 export let quizBook = [];
-// document.addEventListener('DOMContentLoaded', getQuiz);

@@ -17,4 +17,5 @@ body {
   font-size: 2rem;
   padding: 16px;
   word-wrap: break-word;
+  margin: 0;
 }

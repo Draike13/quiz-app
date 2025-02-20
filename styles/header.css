@@ -93,17 +93,7 @@
   pointer-events: none; /* Prevent interaction when hidden */
 }
 
-.easy:hover #easyMenu {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-.medium:hover #mediumMenu {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-.hard:hover #hardMenu {
+.difficulty:hover .drop-menu {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;

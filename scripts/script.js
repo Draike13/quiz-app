@@ -1,17 +1,8 @@
 import { getQuiz, quizBook } from '../data/data.js';
-let easyBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficulty=easy&type=multiple';
-let mediumBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficulty=medium&type=multiple';
-let hardBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficulty=hard&type=multiple';
+
 let overlay = document.querySelector('.menu-overlay');
 let header2 = document.getElementById('header2');
 let menu = document.querySelector('.header-icon');
-// let easy = document.querySelector('.easy');
-// let medium = document.querySelector('.medium');
-// let hard = document.querySelector('.hard');
-
-let easyBook = document.getElementById('easyBook');
-let medBook = document.getElementById('medBook');
-let hardBook = document.getElementById('hardBook');
 
 function menuControl(event) {
   if (header2.classList.contains('open')) {
@@ -27,30 +18,26 @@ function menuControl(event) {
   }
 }
 
-function openEasy() {
-  getQuiz(easyBookQuizAPI).then(() =>
-    quizBook[0].results.forEach((question) => {
-      console.log(question.question);
-    })
-  );
-  document.getElementById('easyMenu').classList.add('open');
-}
-function openMedium() {
-  getQuiz(mediumBookQuizAPI).then(() =>
-    quizBook[0].results.forEach((question) => {
-      console.log(question.question);
-    })
-  );
-}
-function openHard() {
-  getQuiz(hardBookQuizAPI).then(() =>
-    quizBook[0].results.forEach((question) => {
-      console.log(question.question);
-    })
-  );
+function openQuiz(event) {
+  let menuItem = event.target.closest('.book');
+  let difficultyParent = event.target.closest('.difficulty');
+  let cat;
+
+  if (menuItem && difficultyParent) {
+    let difficulty = difficultyParent.dataset.difficulty;
+    let category = menuItem.value;
+    if (category === 'books') {
+      cat = '10';
+    }
+
+    getQuiz(cat, difficulty).then(() =>
+      quizBook.results.forEach((question) => {
+        console.log(question.difficulty);
+        console.log(question.question);
+      })
+    );
+  }
 }
 
 document.addEventListener('click', menuControl);
-easyBook.addEventListener('click', openEasy);
-medBook.addEventListener('click', openMedium);
-hardBook.addEventListener('click', openHard);
+header2.addEventListener('click', openQuiz);
