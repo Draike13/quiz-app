@@ -17,14 +17,32 @@
       </header>
 
       <div id="header2">
-        <i class="easy fa-solid fa-face-smile">Easy</i>
-        <i class="medium fa-solid fa-face-surprise">Medium</i>
-        <i class="hard fa-solid fa-face-sad-cry">Hard</i>
+        <i class="easy fa-solid fa-face-smile"
+          >Easy
+          <div class="drop-menu" id="easyMenu">
+            <option id="easyBook" value="books">Books</option>
+          </div>
+        </i>
+        <i class="medium fa-solid fa-face-surprise"
+          >Medium
+          <div class="drop-menu" id="mediumMenu">
+            <option id="medBook" value="books">Books</option>
+            <option value="something">Somethin' Else</option>
+          </div>
+        </i>
+        <i class="hard fa-solid fa-face-sad-cry"
+          >Hard
+          <div class="drop-menu" id="hardMenu">
+            <option id="hardBook" value="books">Books</option>
+            <option value="etc">Etc...</option>
+          </div>
+        </i>
       </div>
       <div class="blurb-container">
         <h3 id="pageBody">Welcome to the quiz app, here you can take quizes at different difficulties and topics. More are added everyday, join the fun and take a quiz now!</h3>
       </div>
     </div>
+
     <div class="menu-overlay"></div>
   </body>
 </html>

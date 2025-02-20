@@ -5,9 +5,14 @@ let hardBookQuizAPI = 'https://opentdb.com/api.php?amount=10&category=10&difficu
 let overlay = document.querySelector('.menu-overlay');
 let header2 = document.getElementById('header2');
 let menu = document.querySelector('.header-icon');
-let easy = document.querySelector('.easy');
-let medium = document.querySelector('.medium');
-let hard = document.querySelector('.hard');
+// let easy = document.querySelector('.easy');
+// let medium = document.querySelector('.medium');
+// let hard = document.querySelector('.hard');
+
+let easyBook = document.getElementById('easyBook');
+let medBook = document.getElementById('medBook');
+let hardBook = document.getElementById('hardBook');
+
 function menuControl(event) {
   if (header2.classList.contains('open')) {
     if (event.target === overlay || event.target === menu) {
@@ -21,12 +26,14 @@ function menuControl(event) {
     }
   }
 }
+
 function openEasy() {
   getQuiz(easyBookQuizAPI).then(() =>
     quizBook[0].results.forEach((question) => {
       console.log(question.question);
     })
   );
+  document.getElementById('easyMenu').classList.add('open');
 }
 function openMedium() {
   getQuiz(mediumBookQuizAPI).then(() =>
@@ -44,6 +51,6 @@ function openHard() {
 }
 
 document.addEventListener('click', menuControl);
-easy.addEventListener('click', openEasy);
-medium.addEventListener('click', openMedium);
-hard.addEventListener('click', openHard);
+easyBook.addEventListener('click', openEasy);
+medBook.addEventListener('click', openMedium);
+hardBook.addEventListener('click', openHard);
