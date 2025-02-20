@@ -19,18 +19,14 @@ function menuControl(event) {
 }
 
 function openQuiz(event) {
-  let menuItem = event.target.closest('.book');
+  let menuItem = event.target.closest('.item');
   let difficultyParent = event.target.closest('.difficulty');
-  let cat;
 
   if (menuItem && difficultyParent) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
-    if (category === 'books') {
-      cat = '10';
-    }
-
-    getQuiz(cat, difficulty).then(() =>
+    console.log(category, difficulty);
+    getQuiz(category, difficulty).then(() =>
       quizBook.results.forEach((question) => {
         console.log(question.difficulty);
         console.log(question.question);
