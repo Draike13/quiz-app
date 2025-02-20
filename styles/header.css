@@ -79,18 +79,18 @@
 }
 
 .drop-menu {
-  position: absolute; /* Position it relative to the button */
-  top: 100%; /* Start it just below the button */
+  position: absolute;
+  top: 100%;
   left: 0;
   background-color: #f1f1f1;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   width: 200px;
-  opacity: 0; /* Initially hidden */
-  transform: translateY(-10px); /* Slightly move it up */
-  transition: all 0.3s ease-in-out; /* Smooth transition */
-  pointer-events: none; /* Prevent interaction when hidden */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
 }
 
 .difficulty:hover .drop-menu {
