@@ -85,7 +85,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
-  width: 100px;
+  width: 110px;
   opacity: 0;
   transform: translateY(-10px);
   transition: all 0.3s ease-in-out;
@@ -96,9 +96,14 @@
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
+  overflow: hidden;
 }
 
 #header2 .difficulty .item {
+  display: block;
+  max-width: 100%;
+  font-size: min(1rem, 10ch);
+  white-space: nowrap;
   color: black;
 }
 #header2 .difficulty .item:hover {

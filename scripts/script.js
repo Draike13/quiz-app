@@ -38,7 +38,6 @@ function menuControl(event) {
 function openQuiz(event) {
   let menuItem = event.target.closest('.item');
   let difficultyParent = event.target.closest('.difficulty');
-
   if (menuItem && difficultyParent) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
@@ -56,5 +55,6 @@ function buildQuestions(question) {
   console.log(quizQuestion);
   console.log(quizQuestion.answers);
 }
+
 document.addEventListener('click', menuControl);
 header2.addEventListener('click', openQuiz);
