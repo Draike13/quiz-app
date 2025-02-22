@@ -41,10 +41,11 @@ function openQuiz(event) {
   if (menuItem && difficultyParent) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
-    console.log(category, difficulty);
     getQuiz(category, difficulty).then(() =>
       quizBook.results.forEach((question) => {
-        buildQuestions(question);
+        startQuiz(buildQuestions(question));
+        header2.classList.remove('open');
+        overlay.classList.remove('active');
       })
     );
   }
@@ -52,9 +53,33 @@ function openQuiz(event) {
 
 function buildQuestions(question) {
   let quizQuestion = new Question(question);
-  console.log(quizQuestion);
-  console.log(quizQuestion.answers);
+  return quizQuestion;
 }
 
 document.addEventListener('click', menuControl);
 header2.addEventListener('click', openQuiz);
+
+function startQuiz(quiz) {
+  const container = document.querySelector('.blurb-container');
+
+  container.classList.add('quiz-active');
+
+  setTimeout(() => {
+    container.innerHTML = `
+      <div class="quiz-container">
+        <div class="question-bubble">
+         ${quiz.question}
+        </div>
+        <div class="answer-bubble">${quiz.answers[0]}</div>
+        <div class="answer-bubble">${quiz.answers[1]}</div>
+        <div class="answer-bubble">${quiz.answers[2]}</div>
+        <div class="answer-bubble">${quiz.answers[3]}</div>
+        <div class="feedback-message">Correct!</div>
+      </div>
+    `;
+    setTimeout(() => {
+      document.querySelector('.quiz-container').classList.add('show');
+    }, 250);
+    //add logic for answering questions and transisiton to the next question
+  }, 700);
+}

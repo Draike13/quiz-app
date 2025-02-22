@@ -2,20 +2,39 @@ body {
   margin: 0;
   background-color: black;
 }
-.blurb-container {
-  position: absolute;
-  top: 160px;
-  left: 25%;
-  height: 60%;
-  width: 60%;
-  background-color: #f1f1f1;
-  margin: 0;
-  border-radius: 6px;
-}
+
 #pageBody {
   color: black;
   font-size: 2rem;
   padding: 16px;
   word-wrap: break-word;
   margin: 0;
+}
+
+.blurb-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.25);
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 10px;
+  transition: transform 0.7s ease-in-out, background 0.7s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.blurb-container.quiz-active {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.quiz-container .question-bubble,
+.quiz-container .answer-bubble {
+  transition: all 0.35s ease-in-out;
+}
+
+.quiz-container.show {
+  opacity: 1;
 }
