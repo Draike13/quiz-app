@@ -81,5 +81,23 @@ function startQuiz(quiz) {
       document.querySelector('.quiz-container').classList.add('show');
     }, 250);
     //add logic for answering questions and transisiton to the next question
+    let answers = document.querySelectorAll('.answer-bubble');
+    answers.forEach((answer) => {
+      answer.addEventListener('click', (event) => {
+        let selectAnswer = event.target.innerHTML;
+        if (selectAnswer === quiz.cAnswer) {
+          event.target.classList.add('correct');
+        } else {
+          event.target.classList.add('wrong');
+
+          answers.forEach((ans) => {
+            if (ans.innerHTML === quiz.cAnswer) {
+              ans.classList.add('correct');
+            }
+          });
+        }
+        console.log(selectAnswer);
+      });
+    });
   }, 700);
 }

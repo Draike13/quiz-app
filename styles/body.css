@@ -15,7 +15,6 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  max-height: 24rem;
   transform: translate(-50%, -50%) scale(1.25);
   background: #f9f9f9;
   padding: 2rem;
