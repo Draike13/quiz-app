@@ -1,4 +1,4 @@
-import { getQuiz, quizBook } from '../data/data.js';
+import { getQuiz, fullQuiz } from '../data/data.js';
 
 export class Question {
   constructor(question) {
@@ -17,6 +17,7 @@ export class Question {
   }
 }
 
+let answersArray = [];
 let overlay = document.querySelector('.menu-overlay');
 let header2 = document.getElementById('header2');
 let menu = document.querySelector('.header-icon');
@@ -41,63 +42,119 @@ function openQuiz(event) {
   if (menuItem && difficultyParent) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
-    getQuiz(category, difficulty).then(() =>
-      quizBook.results.forEach((question) => {
-        startQuiz(buildQuestions(question));
-        header2.classList.remove('open');
-        overlay.classList.remove('active');
-      })
-    );
+    getQuiz(category, difficulty).then(() => {
+      let quizQuestions = fullQuiz.results.map((question) => buildQuestions(question));
+      startQuiz(quizQuestions);
+      header2.classList.remove('open');
+      overlay.classList.remove('active');
+    });
   }
 }
 
 function buildQuestions(question) {
-  let quizQuestion = new Question(question);
-  return quizQuestion;
+  return new Question(question);
 }
 
-document.addEventListener('click', menuControl);
-header2.addEventListener('click', openQuiz);
-
-function startQuiz(quiz) {
+function startQuiz(quizArray) {
   const container = document.querySelector('.blurb-container');
-
   container.classList.add('quiz-active');
 
   setTimeout(() => {
-    container.innerHTML = `
-      <div class="quiz-container">
-        <div class="question-bubble">
-         ${quiz.question}
-        </div>
-        <div class="answer-bubble">${quiz.answers[0]}</div>
-        <div class="answer-bubble">${quiz.answers[1]}</div>
-        <div class="answer-bubble">${quiz.answers[2]}</div>
-        <div class="answer-bubble">${quiz.answers[3]}</div>
-        <div class="feedback-message">Correct!</div>
-      </div>
-    `;
+    container.innerHTML = '';
+
+    let quizContainer = document.createElement('div');
+    quizContainer.classList.add('quiz-container');
+    container.appendChild(quizContainer);
+
+    let cardStack = document.createElement('div');
+    cardStack.classList.add('card-stack');
+    quizContainer.appendChild(cardStack);
+
+    quizArray.forEach((quiz, index) => {
+      const card = document.createElement('div');
+      card.classList.add('quiz-card');
+
+      if (index !== 0) {
+        card.classList.add('hidden');
+      }
+      card.dataset.correct = quiz.cAnswer;
+      card.innerHTML = `
+    <div class="question-bubble">${quiz.question}</div>
+    <div class="answer-bubble">${quiz.answers[0]}</div>
+    <div class="answer-bubble">${quiz.answers[1]}</div>
+    <div class="answer-bubble">${quiz.answers[2]}</div>
+    <div class="answer-bubble">${quiz.answers[3]}</div>
+    <div class="feedback-message">Correct!</div>
+  `;
+
+      cardStack.appendChild(card);
+    });
+
     setTimeout(() => {
-      document.querySelector('.quiz-container').classList.add('show');
+      quizContainer.classList.add('show');
     }, 250);
     //add logic for answering questions and transisiton to the next question
-    let answers = document.querySelectorAll('.answer-bubble');
-    answers.forEach((answer) => {
-      answer.addEventListener('click', (event) => {
-        let selectAnswer = event.target.innerHTML;
-        if (selectAnswer === quiz.cAnswer) {
+    let animating = false;
+
+    let removalDirection = 1;
+    cardStack.addEventListener('click', (event) => {
+      if (animating) return;
+      if (event.target.classList.contains('answer-bubble')) {
+        const topCard = document.querySelector('.quiz-card:not(.hidden)');
+        if (!topCard) return;
+        const correctAnswer = topCard.dataset.correct;
+        const selectedAnswer = event.target.innerHTML;
+        if (selectedAnswer === correctAnswer) {
           event.target.classList.add('correct');
         } else {
           event.target.classList.add('wrong');
 
-          answers.forEach((ans) => {
-            if (ans.innerHTML === quiz.cAnswer) {
-              ans.classList.add('correct');
+          topCard.querySelectorAll('.answer-bubble').forEach((bubble) => {
+            if (bubble.innerHTML === correctAnswer) {
+              bubble.classList.add('correct');
             }
           });
         }
-        console.log(selectAnswer);
-      });
+        console.log('selected', selectedAnswer);
+
+        animating = true;
+
+        setTimeout(() => {
+          if (removalDirection === 1) {
+            topCard.classList.add('remove-card-right');
+          } else {
+            topCard.classList.add('remove-card-left');
+          }
+
+          setTimeout(() => {
+            topCard.remove();
+            removalDirection = -removalDirection;
+            const nextCard = document.querySelector('.quiz-card.hidden');
+            if (nextCard) {
+              nextCard.classList.remove('hidden');
+            }
+            animating = false;
+          }, 800);
+        }, 2000);
+      }
     });
   }, 700);
 }
+
+document.addEventListener('click', menuControl);
+header2.addEventListener('click', openQuiz);
+// document.addEventListener('click', (event) => {
+//   if (event.target.classList.contains('answer-bubble')) {
+//     const topCard = document.querySelector('.quiz-card:not(.hidden)');
+
+//     topCard.classList.add('remove-card');
+
+//     setTimeout(() => {
+//       topCard.remove();
+//       const nextCard = document.querySelector('.quiz-card.hidden');
+//       if (nextCard) {
+//         nextCard.classList.remove('hidden');
+//       }
+//     }, 1000);
+//   }
+// });
