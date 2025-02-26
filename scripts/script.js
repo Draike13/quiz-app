@@ -143,18 +143,3 @@ function startQuiz(quizArray) {
 
 document.addEventListener('click', menuControl);
 header2.addEventListener('click', openQuiz);
-// document.addEventListener('click', (event) => {
-//   if (event.target.classList.contains('answer-bubble')) {
-//     const topCard = document.querySelector('.quiz-card:not(.hidden)');
-
-//     topCard.classList.add('remove-card');
-
-//     setTimeout(() => {
-//       topCard.remove();
-//       const nextCard = document.querySelector('.quiz-card.hidden');
-//       if (nextCard) {
-//         nextCard.classList.remove('hidden');
-//       }
-//     }, 1000);
-//   }
-// });
