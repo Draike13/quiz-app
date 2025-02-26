@@ -139,6 +139,7 @@ function startQuiz(quizArray) {
               nextCard.classList.remove('hidden');
               animating = false;
             } else {
+              // adds delay in loading the final score onto page
               setTimeout(() => {
                 const finalScore = displayScore(score, quizLength);
                 addStar(currentQuizId, finalScore);
