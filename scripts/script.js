@@ -17,7 +17,7 @@ export class Question {
   }
 }
 let score = 0;
-let answersArray = [];
+let currentQuizId = null;
 let overlay = document.querySelector('.menu-overlay');
 let header2 = document.getElementById('header2');
 let menu = document.querySelector('.header-icon');
@@ -42,6 +42,7 @@ function openQuiz(event) {
   if (menuItem && difficultyParent) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
+    currentQuizId = menuItem.id;
     getQuiz(category, difficulty).then(() => {
       let quizQuestions = fullQuiz.results.map((question) => buildQuestions(question));
       startQuiz(quizQuestions);
@@ -139,7 +140,8 @@ function startQuiz(quizArray) {
               animating = false;
             } else {
               setTimeout(() => {
-                displayScore(score, quizLength);
+                const finalScore = displayScore(score, quizLength);
+                addStar(currentQuizId, finalScore);
               }, 700);
             }
           }, 700);
@@ -160,6 +162,15 @@ function displayScore(score, numberOfQuestions) {
   resultCard.innerHTML = `
   <div class="final-score">You Scored: ${finalScore}%</div>`;
   container.appendChild(resultCard);
+  return finalScore;
+}
+
+function addStar(selectedQuiz, score) {
+  const passing = 40;
+  if (score >= passing) {
+    const quizItem = document.getElementById(selectedQuiz);
+    quizItem.classList.replace('fa-regular', 'fa-solid');
+  }
 }
 
 document.addEventListener('click', menuControl);
