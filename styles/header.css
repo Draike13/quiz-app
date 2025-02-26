@@ -100,11 +100,13 @@
 }
 
 #header2 .difficulty .item {
-  display: block;
+  display: flex;
   max-width: 100%;
-  font-size: min(1rem, 10ch);
+  font-size: min(0.85rem, 10ch);
   white-space: nowrap;
   color: black;
+  align-items: center;
+  gap: 0.25rem;
 }
 #header2 .difficulty .item:hover {
   color: gray;
