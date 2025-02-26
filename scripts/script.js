@@ -16,7 +16,7 @@ export class Question {
     return iAnswers;
   }
 }
-
+let score = 0;
 let answersArray = [];
 let overlay = document.querySelector('.menu-overlay');
 let header2 = document.getElementById('header2');
@@ -58,6 +58,8 @@ function buildQuestions(question) {
 function startQuiz(quizArray) {
   const container = document.querySelector('.blurb-container');
   container.classList.add('quiz-active');
+  score = 0;
+  const quizLength = quizArray.length;
 
   //slows down the shift of the container to show quiz card from the original blurb
   setTimeout(() => {
@@ -106,6 +108,7 @@ function startQuiz(quizArray) {
         const selectedAnswer = event.target.innerHTML;
         if (selectedAnswer === correctAnswer) {
           event.target.classList.add('correct');
+          score++;
         } else {
           event.target.classList.add('wrong');
 
@@ -133,13 +136,30 @@ function startQuiz(quizArray) {
             const nextCard = document.querySelector('.quiz-card.hidden');
             if (nextCard) {
               nextCard.classList.remove('hidden');
+              animating = false;
+            } else {
+              setTimeout(() => {
+                displayScore(score, quizLength);
+              }, 700);
             }
-            animating = false;
           }, 700);
         }, 2000);
       }
     });
   }, 700);
+}
+
+function displayScore(score, numberOfQuestions) {
+  const container = document.querySelector('.blurb-container');
+  container.innerHTML = '';
+
+  let resultCard = document.createElement('div');
+  resultCard.classList.add('quiz-result');
+  let finalScore = Math.round((score / numberOfQuestions) * 100);
+
+  resultCard.innerHTML = `
+  <div class="final-score">You Scored: ${finalScore}%</div>`;
+  container.appendChild(resultCard);
 }
 
 document.addEventListener('click', menuControl);
