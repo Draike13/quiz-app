@@ -59,6 +59,7 @@ function startQuiz(quizArray) {
   const container = document.querySelector('.blurb-container');
   container.classList.add('quiz-active');
 
+  //slows down the shift of the container to show quiz card from the original blurb
   setTimeout(() => {
     container.innerHTML = '';
 
@@ -89,11 +90,10 @@ function startQuiz(quizArray) {
 
       cardStack.appendChild(card);
     });
-
+    //sets small delay to make sure card has time to load
     setTimeout(() => {
       quizContainer.classList.add('show');
     }, 250);
-    //add logic for answering questions and transisiton to the next question
     let animating = false;
 
     let removalDirection = 1;
@@ -119,13 +119,14 @@ function startQuiz(quizArray) {
 
         animating = true;
 
+        //sets delay for countdown to next question
         setTimeout(() => {
           if (removalDirection === 1) {
             topCard.classList.add('remove-card-right');
           } else {
             topCard.classList.add('remove-card-left');
           }
-
+          //sets delay for laoding of next question in the stack after removal animation
           setTimeout(() => {
             topCard.remove();
             removalDirection = -removalDirection;
@@ -134,7 +135,7 @@ function startQuiz(quizArray) {
               nextCard.classList.remove('hidden');
             }
             animating = false;
-          }, 800);
+          }, 700);
         }, 2000);
       }
     });
