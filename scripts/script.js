@@ -168,10 +168,24 @@ function displayScore(score, numberOfQuestions) {
 function addStar(selectedQuiz, score) {
   const passing = 40;
   if (score >= passing) {
+    let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
+    completedQuizzes[selectedQuiz] = true;
+    localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
     const quizItem = document.getElementById(selectedQuiz);
     quizItem.classList.replace('fa-regular', 'fa-solid');
   }
 }
 
+function loadCompleteQuizzes() {
+  let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
+  for (let quizID in completedQuizzes) {
+    if (completedQuizzes[quizID]) {
+      let quizItem = document.getElementById(quizID);
+      quizItem.classList.replace('fa-regular', 'fa-solid');
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadCompleteQuizzes);
 document.addEventListener('click', menuControl);
 header2.addEventListener('click', openQuiz);
