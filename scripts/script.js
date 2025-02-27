@@ -166,7 +166,7 @@ function displayScore(score, numberOfQuestions) {
 }
 
 function addStar(selectedQuiz, score) {
-  const passing = 0;
+  const passing = 70;
   if (score >= passing) {
     element.completedQuizzes[selectedQuiz] = true;
     localStorage.setItem('completedQuizzes', JSON.stringify(element.completedQuizzes));
