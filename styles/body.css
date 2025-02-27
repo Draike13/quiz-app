@@ -4,6 +4,9 @@ body {
 }
 
 #pageBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: black;
   font-size: 1.5rem;
   padding: 16px;

@@ -43,12 +43,16 @@ function openQuiz(event) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
     currentQuizId = menuItem.id;
-    getQuiz(category, difficulty).then(() => {
-      let quizQuestions = fullQuiz.results.map((question) => buildQuestions(question));
-      startQuiz(quizQuestions);
-      header2.classList.remove('open');
-      overlay.classList.remove('active');
-    });
+    if (document.getElementById(currentQuizId).classList.contains('fa-solid')) {
+      document.querySelector('.blurb-container').innerHTML = "You've already completed this one, why not try a different quiz?";
+    } else {
+      getQuiz(category, difficulty).then(() => {
+        let quizQuestions = fullQuiz.results.map((question) => buildQuestions(question));
+        startQuiz(quizQuestions);
+        header2.classList.remove('open');
+        overlay.classList.remove('active');
+      });
+    }
   }
 }
 
@@ -167,7 +171,7 @@ function displayScore(score, numberOfQuestions) {
 }
 
 function addStar(selectedQuiz, score) {
-  const passing = 40;
+  const passing = 80;
   if (score >= passing) {
     let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
     completedQuizzes[selectedQuiz] = true;

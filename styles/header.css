@@ -33,7 +33,20 @@
   color: #f1f1f1;
   display: inline;
 }
+.delete-icon {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.75rem;
+  font-size: 1.9rem;
+  color: #f1f1f1;
+  display: inline;
+}
 .header-icon:hover {
+  color: gray;
+  transition: 500ms;
+  cursor: pointer;
+}
+.delete-icon:hover {
   color: gray;
   transition: 500ms;
   cursor: pointer;
