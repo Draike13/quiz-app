@@ -191,6 +191,28 @@ function loadCompleteQuizzes() {
   }
 }
 
+function buildResetPage() {
+  let container = document.querySelector('.blurb-container');
+  container.innerHTML = '';
+  let quizContainer = document.createElement('div');
+  quizContainer.classList.add('quiz-container');
+  container.appendChild(quizContainer);
+  quizContainer.innerHTML = `
+  <div class="delete-menu">
+    <div class="prompt-d">Wold you like to reset any of your completed quizes? <br><br> WARNING: This is perminant!</div>
+    <div class="easy-button-d d-button">Reset Easy Quizes</div>
+    <div class="med-button-d d-button">Reset Medium Quizes</div>
+    <div class="hard-button-d d-button">Reset Hard Quizes</div>
+    <div class="all-button-d d-button">Reset All Quizes</div>
+</div>
+  `;
+  //fades in the card and buttons on the blurb for deletes
+  setTimeout(() => {
+    quizContainer.classList.add('show');
+  }, 250);
+}
+
+document.getElementById('deleteIcon').addEventListener('click', buildResetPage);
 document.addEventListener('DOMContentLoaded', loadCompleteQuizzes);
 document.addEventListener('click', menuControl);
 header2.addEventListener('click', openQuiz);

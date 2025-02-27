@@ -16,7 +16,8 @@
   position: relative;
 }
 
-.question-bubble {
+.question-bubble,
+.prompt-d {
   background: #000000;
   height: 3.5rem;
   border-radius: 20px;
@@ -30,7 +31,8 @@
   margin: 1rem;
 }
 
-.answer-bubble {
+.answer-bubble,
+.d-button {
   height: 1.25rem;
   max-width: 70%;
   font-size: clamp(0.75rem, 1.75vw, 1rem);
@@ -44,7 +46,8 @@
   border: 2px solid transparent;
 }
 
-.answer-bubble:hover {
+.answer-bubble:hover,
+.d-button:hover {
   background: #e0e0e0;
 }
 
@@ -52,7 +55,8 @@
   border-color: green;
 }
 
-.answer-bubble.wrong {
+.answer-bubble.wrong,
+.d-button:hover {
   border-color: red;
 }
 
@@ -79,7 +83,8 @@
   height: 100%;
 }
 
-.quiz-card {
+.quiz-card,
+.delete-menu {
   position: absolute;
   width: 100%;
   height: 100%;
