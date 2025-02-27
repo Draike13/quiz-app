@@ -92,7 +92,6 @@ function startQuiz(quizArray) {
     <div class="answer-bubble">${quiz.answers[1]}</div>
     <div class="answer-bubble">${quiz.answers[2]}</div>
     <div class="answer-bubble">${quiz.answers[3]}</div>
-    <div class="feedback-message">Correct!</div>
   `;
 
       cardStack.appendChild(card);
