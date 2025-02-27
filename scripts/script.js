@@ -1,6 +1,9 @@
 import { getQuiz, fullQuiz } from '../data/data.js';
+import { buildResetPage, resetAllQuizes, resetQuizzes } from './delete-menu.js';
+import element from './elements.js';
+import { loadCompleteQuizzes } from './helper.js';
 
-export class Question {
+class Question {
   constructor(question) {
     this.question = question.question;
     this.cAnswer = question.correct_answer;
@@ -16,22 +19,17 @@ export class Question {
     return iAnswers;
   }
 }
-let score = 0;
-let currentQuizId = null;
-let overlay = document.querySelector('.menu-overlay');
-let header2 = document.getElementById('header2');
-let menu = document.querySelector('.header-icon');
 
 function menuControl(event) {
-  if (header2.classList.contains('open')) {
-    if (event.target === overlay || event.target === menu) {
-      header2.classList.remove('open');
-      overlay.classList.remove('active');
+  if (element.header2.classList.contains('open')) {
+    if (event.target === element.overlay || event.target === element.menu) {
+      element.header2.classList.remove('open');
+      element.overlay.classList.remove('active');
     }
-  } else if (!header2.classList.contains('.open')) {
-    if (event.target === menu) {
-      header2.classList.add('open');
-      overlay.classList.toggle('active');
+  } else if (!element.header2.classList.contains('.open')) {
+    if (event.target === element.menu) {
+      element.header2.classList.add('open');
+      element.overlay.classList.toggle('active');
     }
   }
 }
@@ -42,15 +40,15 @@ function openQuiz(event) {
   if (menuItem && difficultyParent) {
     let difficulty = difficultyParent.dataset.difficulty;
     let category = menuItem.value;
-    currentQuizId = menuItem.id;
-    if (document.getElementById(currentQuizId).classList.contains('fa-solid')) {
+    element.currentQuizId = menuItem.id;
+    if (document.getElementById(element.currentQuizId).classList.contains('fa-solid')) {
       document.querySelector('.blurb-container').innerHTML = "You've already completed this one, why not try a different quiz?";
     } else {
       getQuiz(category, difficulty).then(() => {
         let quizQuestions = fullQuiz.results.map((question) => buildQuestions(question));
         startQuiz(quizQuestions);
-        header2.classList.remove('open');
-        overlay.classList.remove('active');
+        element.header2.classList.remove('open');
+        element.overlay.classList.remove('active');
       });
     }
   }
@@ -61,18 +59,17 @@ function buildQuestions(question) {
 }
 
 function startQuiz(quizArray) {
-  const container = document.querySelector('.blurb-container');
-  container.classList.add('quiz-active');
-  score = 0;
+  element.container.classList.add('quiz-active');
+  element.score = 0;
   const quizLength = quizArray.length;
 
   //slows down the shift of the container to show quiz card from the original blurb
   setTimeout(() => {
-    container.innerHTML = '';
+    element.container.innerHTML = '';
 
     let quizContainer = document.createElement('div');
     quizContainer.classList.add('quiz-container');
-    container.appendChild(quizContainer);
+    element.container.appendChild(quizContainer);
 
     let cardStack = document.createElement('div');
     cardStack.classList.add('card-stack');
@@ -112,7 +109,7 @@ function startQuiz(quizArray) {
         const selectedAnswer = event.target.innerHTML;
         if (selectedAnswer === correctAnswer) {
           event.target.classList.add('correct');
-          score++;
+          element.score++;
         } else {
           event.target.classList.add('wrong');
 
@@ -144,8 +141,8 @@ function startQuiz(quizArray) {
             } else {
               // adds delay in loading the final score onto page
               setTimeout(() => {
-                const finalScore = displayScore(score, quizLength);
-                addStar(currentQuizId, finalScore);
+                const finalScore = displayScore(element.score, quizLength);
+                addStar(element.currentQuizId, finalScore);
               }, 700);
             }
           }, 700);
@@ -156,8 +153,7 @@ function startQuiz(quizArray) {
 }
 
 function displayScore(score, numberOfQuestions) {
-  const container = document.querySelector('.blurb-container');
-  container.innerHTML = '';
+  element.container.innerHTML = '';
 
   let resultCard = document.createElement('div');
   resultCard.classList.add('quiz-result');
@@ -165,80 +161,18 @@ function displayScore(score, numberOfQuestions) {
 
   resultCard.innerHTML = `
   <div class="final-score">You Scored: ${finalScore}%</div>`;
-  container.appendChild(resultCard);
+  element.container.appendChild(resultCard);
   return finalScore;
 }
 
 function addStar(selectedQuiz, score) {
   const passing = 0;
   if (score >= passing) {
-    let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
-    completedQuizzes[selectedQuiz] = true;
-    localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+    element.completedQuizzes[selectedQuiz] = true;
+    localStorage.setItem('completedQuizzes', JSON.stringify(element.completedQuizzes));
     const quizItem = document.getElementById(selectedQuiz);
     quizItem.classList.replace('fa-regular', 'fa-solid');
   }
-}
-
-function loadCompleteQuizzes() {
-  let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
-  let allQuizzes = document.querySelectorAll('.item');
-
-  allQuizzes.forEach((icon) => {
-    if (icon.classList.contains('fa-solid')) {
-      icon.classList.replace('fa-solid', 'fa-regular');
-    }
-  });
-  for (let quizID in completedQuizzes) {
-    if (completedQuizzes[quizID]) {
-      let quizItem = document.getElementById(quizID);
-      quizItem.classList.replace('fa-regular', 'fa-solid');
-    }
-  }
-}
-
-function buildResetPage() {
-  let container = document.querySelector('.blurb-container');
-  container.innerHTML = '';
-  let quizContainer = document.createElement('div');
-  quizContainer.classList.add('quiz-container');
-  container.appendChild(quizContainer);
-  quizContainer.innerHTML = `
-  <div class="delete-menu">
-    <div class="prompt-d">Wold you like to reset any of your completed quizzes? <br><br> WARNING: This is perminant!</div>
-    <div class="easy-button-d d-button" data-difficulty="easy">Reset Easy Quizzes</div>
-    <div class="med-button-d d-button" data-difficulty="med">Reset Medium Quizzes</div>
-    <div class="hard-button-d d-button" data-difficulty="hard">Reset Hard Quizzes</div>
-    <div class="all-button-d d-button" data-difficulty="all">Reset All Quizzes</div>
-</div>
-  `;
-  //fades in the card and buttons on the blurb for deletes
-  setTimeout(() => {
-    quizContainer.classList.add('show');
-  }, 250);
-}
-
-function resetQuizzes(difficulty) {
-  let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
-
-  Object.keys(completedQuizzes).forEach((key) => {
-    if (key.startsWith(difficulty)) {
-      delete completedQuizzes[key];
-    }
-  });
-  localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
-  requestAnimationFrame(() => {
-    loadCompleteQuizzes();
-  });
-}
-
-function resetAllQuizes() {
-  let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
-  completedQuizzes = {};
-  localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
-  requestAnimationFrame(() => {
-    loadCompleteQuizzes();
-  });
 }
 
 document.addEventListener('click', (event) => {
