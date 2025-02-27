@@ -170,7 +170,7 @@ function displayScore(score, numberOfQuestions) {
 }
 
 function addStar(selectedQuiz, score) {
-  const passing = 80;
+  const passing = 0;
   if (score >= passing) {
     let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
     completedQuizzes[selectedQuiz] = true;
@@ -182,6 +182,13 @@ function addStar(selectedQuiz, score) {
 
 function loadCompleteQuizzes() {
   let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
+  let allQuizzes = document.querySelectorAll('.item');
+
+  allQuizzes.forEach((icon) => {
+    if (icon.classList.contains('fa-solid')) {
+      icon.classList.replace('fa-solid', 'fa-regular');
+    }
+  });
   for (let quizID in completedQuizzes) {
     if (completedQuizzes[quizID]) {
       let quizItem = document.getElementById(quizID);
@@ -198,11 +205,11 @@ function buildResetPage() {
   container.appendChild(quizContainer);
   quizContainer.innerHTML = `
   <div class="delete-menu">
-    <div class="prompt-d">Wold you like to reset any of your completed quizes? <br><br> WARNING: This is perminant!</div>
-    <div class="easy-button-d d-button">Reset Easy Quizes</div>
-    <div class="med-button-d d-button">Reset Medium Quizes</div>
-    <div class="hard-button-d d-button">Reset Hard Quizes</div>
-    <div class="all-button-d d-button">Reset All Quizes</div>
+    <div class="prompt-d">Wold you like to reset any of your completed quizzes? <br><br> WARNING: This is perminant!</div>
+    <div class="easy-button-d d-button" data-difficulty="easy">Reset Easy Quizzes</div>
+    <div class="med-button-d d-button" data-difficulty="med">Reset Medium Quizzes</div>
+    <div class="hard-button-d d-button" data-difficulty="hard">Reset Hard Quizzes</div>
+    <div class="all-button-d d-button" data-difficulty="all">Reset All Quizzes</div>
 </div>
   `;
   //fades in the card and buttons on the blurb for deletes
@@ -211,6 +218,34 @@ function buildResetPage() {
   }, 250);
 }
 
+function resetQuizzes(difficulty) {
+  let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
+
+  Object.keys(completedQuizzes).forEach((key) => {
+    if (key.startsWith(difficulty)) {
+      delete completedQuizzes[key];
+    }
+  });
+  localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+  requestAnimationFrame(() => {
+    loadCompleteQuizzes();
+  });
+}
+
+function resetAllQuizes() {}
+
+document.addEventListener('click', (event) => {
+  let btn = event.target.closest('.d-button');
+  if (btn) {
+    let difficulty = btn.dataset.difficulty;
+    confirm(`are you sure you want to delete ${difficulty} quizzes?`);
+    if (difficulty === 'all') {
+      resetAllQuizes();
+    } else {
+      resetQuizzes(difficulty);
+    }
+  }
+});
 document.getElementById('deleteIcon').addEventListener('click', buildResetPage);
 document.addEventListener('DOMContentLoaded', loadCompleteQuizzes);
 document.addEventListener('click', menuControl);
