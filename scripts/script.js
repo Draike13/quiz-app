@@ -1,6 +1,6 @@
+import element from './elements.js';
 import { getQuiz, fullQuiz } from '../data/data.js';
 import { buildResetPage, resetAllQuizes, resetQuizzes } from './delete-menu.js';
-import element from './elements.js';
 import { loadCompleteQuizzes } from './helper.js';
 
 class Question {
