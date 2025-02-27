@@ -232,7 +232,14 @@ function resetQuizzes(difficulty) {
   });
 }
 
-function resetAllQuizes() {}
+function resetAllQuizes() {
+  let completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || {};
+  completedQuizzes = {};
+  localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+  requestAnimationFrame(() => {
+    loadCompleteQuizzes();
+  });
+}
 
 document.addEventListener('click', (event) => {
   let btn = event.target.closest('.d-button');
