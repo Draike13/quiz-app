@@ -7,4 +7,4 @@ export async function getQuiz(category, difficulty) {
     .catch((error) => console.error('Error fetching affirmation:', error));
 }
 export let fullQuiz = [];
-const numOfQuestions = 7;
+const numOfQuestions = 1;

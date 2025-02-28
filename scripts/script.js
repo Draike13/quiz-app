@@ -1,6 +1,6 @@
 import element from './elements.js';
 import { getQuiz, fullQuiz } from '../data/data.js';
-import { buildResetPage, resetAllQuizes, resetQuizzes } from './delete-menu.js';
+import { buildResetPage, deleteBtn } from './delete-menu.js';
 import { loadCompleteQuizzes } from './helper.js';
 
 class Question {
@@ -175,19 +175,8 @@ function addStar(selectedQuiz, score) {
   }
 }
 
-document.addEventListener('click', (event) => {
-  let btn = event.target.closest('.d-button');
-  if (btn) {
-    let difficulty = btn.dataset.difficulty;
-    confirm(`are you sure you want to delete ${difficulty} quizzes?`);
-    if (difficulty === 'all') {
-      resetAllQuizes();
-    } else {
-      resetQuizzes(difficulty);
-    }
-  }
-});
-document.getElementById('deleteIcon').addEventListener('click', buildResetPage);
+document.addEventListener('click', (event) => deleteBtn(event));
 document.addEventListener('DOMContentLoaded', loadCompleteQuizzes);
+document.getElementById('deleteIcon').addEventListener('click', buildResetPage);
 document.addEventListener('click', menuControl);
 header2.addEventListener('click', openQuiz);

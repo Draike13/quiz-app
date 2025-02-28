@@ -21,7 +21,7 @@ export function buildResetPage() {
   }, 250);
 }
 
-export function resetQuizzes(difficulty) {
+function resetQuizzes(difficulty) {
   Object.keys(element.completedQuizzes).forEach((key) => {
     if (key.startsWith(difficulty)) {
       delete element.completedQuizzes[key];
@@ -30,7 +30,7 @@ export function resetQuizzes(difficulty) {
   updateQuizMenu();
 }
 
-export function resetAllQuizes() {
+function resetAllQuizes() {
   element.completedQuizzes = {};
   updateQuizMenu();
 }
@@ -40,4 +40,20 @@ function updateQuizMenu() {
   requestAnimationFrame(() => {
     loadCompleteQuizzes();
   });
+}
+
+export function deleteBtn(event) {
+  let btn = event.target.closest('.d-button');
+  if (btn) {
+    let difficulty = btn.dataset.difficulty;
+    if (confirm(`Are you sure you want to delete ${difficulty} quizzes?`)) {
+      if (difficulty === 'all') {
+        resetAllQuizes();
+      } else {
+        resetQuizzes(difficulty);
+      }
+    } else {
+      console.log('Nothing deleted');
+    }
+  }
 }
