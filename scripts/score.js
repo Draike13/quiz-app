@@ -1,4 +1,5 @@
 import element from './elements.js';
+
 export function displayScore(score, numberOfQuestions) {
   element.container.innerHTML = '';
 

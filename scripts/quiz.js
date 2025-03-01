@@ -139,10 +139,6 @@ async function nextCard(quizLength) {
     addStar(element.currentQuizId, finalScore);
   }
 }
-//awesome reusable async function that can be called to g
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 async function startQuiz(quizArray) {
   //launches the function chain that opens a quiz to play
@@ -168,4 +164,9 @@ async function startQuiz(quizArray) {
       nextQuestion(topCard, quizLength);
     }
   });
+}
+
+//awesome reusable async function that can be called to g
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
