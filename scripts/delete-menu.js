@@ -1,7 +1,7 @@
 import element from './elements.js';
-import { loadCompleteQuizzes } from './helper.js';
+import { loadCompleteQuizzes, delay } from './helper.js';
 
-export function buildResetPage() {
+export async function buildResetPage() {
   element.container.innerHTML = '';
   let quizContainer = document.createElement('div');
   quizContainer.classList.add('quiz-container');
@@ -16,9 +16,8 @@ export function buildResetPage() {
   </div>
     `;
   //fades in the card and buttons on the blurb for deletes
-  setTimeout(() => {
-    quizContainer.classList.add('show');
-  }, 250);
+  await delay(250);
+  quizContainer.classList.add('show');
 }
 
 function resetQuizzes(difficulty) {

@@ -15,3 +15,8 @@ export function loadCompleteQuizzes() {
     }
   }
 }
+
+//awesome reusable async function that can be called to g
+export function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

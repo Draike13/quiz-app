@@ -1,6 +1,7 @@
 import element from './elements.js';
 import { getQuiz, fullQuiz } from '../data/data.js';
 import { addStar, displayScore } from './score.js';
+import { delay } from './helper.js';
 
 class Question {
   constructor(question) {
@@ -143,12 +144,12 @@ async function nextCard(quizLength) {
 async function startQuiz(quizArray) {
   //launches the function chain that opens a quiz to play
   const quizLength = activateQuiz(quizArray);
-  delay(700);
+  await delay(700);
   element.container.innerHTML = '';
   buildQuizContainer(quizArray);
   let quizContainer = document.querySelector('.quiz-container');
   let cardStack = document.querySelector('.card-stack');
-  delay(250);
+  await delay(250);
   quizContainer.classList.add('show');
 
   cardStack.addEventListener('click', (event) => {
@@ -164,9 +165,4 @@ async function startQuiz(quizArray) {
       nextQuestion(topCard, quizLength);
     }
   });
-}
-
-//awesome reusable async function that can be called to g
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
