@@ -102,7 +102,7 @@ function showAnswer(correct) {
   //highlights the correct answer bubble in green
   const bubbles = document.querySelectorAll('.quiz-card:not(.hidden) .answer-bubble');
   bubbles.forEach((bubble) => {
-    if (bubble.innerHTML === correct) {
+    if (bubble.textContent.trim() === correct.trim()) {
       bubble.classList.add('correct');
     }
   });
