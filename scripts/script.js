@@ -4,6 +4,7 @@ import { loadCompleteQuizzes } from './helper.js';
 import { displayQuiz, selectQuiz } from './quiz.js';
 
 function menuControl(event) {
+  //controls header options to open header2 menu
   if (element.header2.classList.contains('open')) {
     if (event.target === element.overlay || event.target === element.menu) {
       element.header2.classList.remove('open');
